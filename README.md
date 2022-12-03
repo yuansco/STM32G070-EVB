@@ -1,15 +1,17 @@
 # STM32G070-EVB
 
-STM32G070-EVB board is based on the ST Microelectronics STM32G070CBT6 Cortex M0+ CPU.
+<img src="https://github.com/yuansco/STM32G070-EVB/blob/main/Image/image1.PNG" style="width:750px;"/>
 
-<img src="https://github.com/yuansco/STM32G070-EVB/blob/master/Image/image1.PNG" style="width:550px;"/>
+## Overview
 
-## Hardware
+The STM32G070-EVB board features an ARM Cortex-M0+ based STM32G070CBT6 MCU with a integrated USB to UART serial console. Here are some highlights of the STM32G070-EVB board:
 
  * ARM Cortex-M0+ processor at 64 MHz
  
  * 128 Kbytes Flash and 36 Kbytes SRAM
- 
+
+ * 16 MHz main crystal oscillator
+
  * 32.768 kHz crystal oscillator for internal RTC
  
  * On-board USB to UART serial console
