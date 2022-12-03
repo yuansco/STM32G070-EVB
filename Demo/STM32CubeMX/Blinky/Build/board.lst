@@ -1,0 +1,343 @@
+ARM GAS  /tmp/cc9aiMuQ.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m0plus
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"board.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text._write,"ax",%progbits
+  20              		.align	2
+  21              		.global	_write
+  22              		.code	16
+  23              		.thumb_func
+  25              	_write:
+  26              	.LFB311:
+  27              		.file 1 "Core/Src/board.c"
+   1:Core/Src/board.c **** 
+   2:Core/Src/board.c **** 
+   3:Core/Src/board.c **** #include "board.h"
+   4:Core/Src/board.c **** #include "main.h"
+   5:Core/Src/board.c **** #include <stdio.h>
+   6:Core/Src/board.c **** #include <string.h>
+   7:Core/Src/board.c **** 
+   8:Core/Src/board.c **** /******************************************************************************/
+   9:Core/Src/board.c **** /* Extern Handle Type */
+  10:Core/Src/board.c **** 
+  11:Core/Src/board.c **** extern I2C_HandleTypeDef hi2c1;
+  12:Core/Src/board.c **** 
+  13:Core/Src/board.c **** #if defined(UART_DEBUG)
+  14:Core/Src/board.c **** extern UART_HandleTypeDef huart1;
+  15:Core/Src/board.c **** #endif
+  16:Core/Src/board.c **** 
+  17:Core/Src/board.c **** 
+  18:Core/Src/board.c **** 
+  19:Core/Src/board.c **** 
+  20:Core/Src/board.c **** /******************************************************************************/
+  21:Core/Src/board.c **** /* UART Debug  */
+  22:Core/Src/board.c **** 
+  23:Core/Src/board.c **** #if defined(__GNUC__) && defined(UART_DEBUG) && !defined(UART_DEBUG_GPIO)
+  24:Core/Src/board.c **** int _write(int fd, char * ptr, int len)
+  25:Core/Src/board.c **** {
+  28              		.loc 1 25 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              	.LVL0:
+  33 0000 10B5     		push	{r4, lr}
+ARM GAS  /tmp/cc9aiMuQ.s 			page 2
+
+
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 8
+  36              		.cfi_offset 4, -8
+  37              		.cfi_offset 14, -4
+  38 0002 1400     		movs	r4, r2
+  26:Core/Src/board.c ****   HAL_UART_Transmit(&huart1, (uint8_t *) ptr, len, HAL_MAX_DELAY);
+  39              		.loc 1 26 0
+  40 0004 92B2     		uxth	r2, r2
+  41              	.LVL1:
+  42 0006 0123     		movs	r3, #1
+  43 0008 5B42     		rsbs	r3, r3, #0
+  44 000a 0248     		ldr	r0, .L2
+  45              	.LVL2:
+  46 000c FFF7FEFF 		bl	HAL_UART_Transmit
+  47              	.LVL3:
+  27:Core/Src/board.c ****   return len;
+  28:Core/Src/board.c **** }
+  48              		.loc 1 28 0
+  49 0010 2000     		movs	r0, r4
+  50              		@ sp needed
+  51              	.LVL4:
+  52 0012 10BD     		pop	{r4, pc}
+  53              	.L3:
+  54              		.align	2
+  55              	.L2:
+  56 0014 00000000 		.word	huart1
+  57              		.cfi_endproc
+  58              	.LFE311:
+  60              		.section	.text.BOARD_Init,"ax",%progbits
+  61              		.align	2
+  62              		.global	BOARD_Init
+  63              		.code	16
+  64              		.thumb_func
+  66              	BOARD_Init:
+  67              	.LFB312:
+  29:Core/Src/board.c **** #elif defined (__ICCARM__) && defined(UART_DEBUG)
+  30:Core/Src/board.c **** #include "LowLevelIOInterface.h"
+  31:Core/Src/board.c **** size_t __write(int handle, const unsigned char * buffer, size_t size)
+  32:Core/Src/board.c **** {
+  33:Core/Src/board.c ****   HAL_UART_Transmit(&huart1, (uint8_t *) buffer, size, HAL_MAX_DELAY);
+  34:Core/Src/board.c ****   return size;
+  35:Core/Src/board.c **** }
+  36:Core/Src/board.c **** #elif defined (__CC_ARM) && defined(UART_DEBUG)
+  37:Core/Src/board.c **** int fputc(int ch, FILE *f)
+  38:Core/Src/board.c **** {
+  39:Core/Src/board.c ****   HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, HAL_MAX_DELAY);
+  40:Core/Src/board.c ****   return ch;
+  41:Core/Src/board.c **** }
+  42:Core/Src/board.c **** #endif
+  43:Core/Src/board.c **** 
+  44:Core/Src/board.c **** 
+  45:Core/Src/board.c **** /******************************************************************************/
+  46:Core/Src/board.c **** /* board init function */
+  47:Core/Src/board.c **** 
+  48:Core/Src/board.c **** void BOARD_Init() {
+  68              		.loc 1 48 0
+  69              		.cfi_startproc
+ARM GAS  /tmp/cc9aiMuQ.s 			page 3
+
+
+  70              		@ args = 0, pretend = 0, frame = 0
+  71              		@ frame_needed = 0, uses_anonymous_args = 0
+  72 0000 10B5     		push	{r4, lr}
+  73              	.LCFI1:
+  74              		.cfi_def_cfa_offset 8
+  75              		.cfi_offset 4, -8
+  76              		.cfi_offset 14, -4
+  49:Core/Src/board.c ****   PRINTF("Ver: %s-%s\r\n", VERSION, BUILD_DATE);
+  77              		.loc 1 49 0
+  78 0002 094A     		ldr	r2, .L5
+  79 0004 0949     		ldr	r1, .L5+4
+  80 0006 0A48     		ldr	r0, .L5+8
+  81 0008 FFF7FEFF 		bl	printf
+  82              	.LVL5:
+  50:Core/Src/board.c ****   HAL_GPIO_WritePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin, GPIO_PIN_RESET);
+  83              		.loc 1 50 0
+  84 000c 0022     		movs	r2, #0
+  85 000e 8021     		movs	r1, #128
+  86 0010 8901     		lsls	r1, r1, #6
+  87 0012 0848     		ldr	r0, .L5+12
+  88 0014 FFF7FEFF 		bl	HAL_GPIO_WritePin
+  89              	.LVL6:
+  51:Core/Src/board.c ****   HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_SET);
+  90              		.loc 1 51 0
+  91 0018 0122     		movs	r2, #1
+  92 001a 0121     		movs	r1, #1
+  93 001c A020     		movs	r0, #160
+  94 001e C005     		lsls	r0, r0, #23
+  95 0020 FFF7FEFF 		bl	HAL_GPIO_WritePin
+  96              	.LVL7:
+  52:Core/Src/board.c **** }
+  97              		.loc 1 52 0
+  98              		@ sp needed
+  99 0024 10BD     		pop	{r4, pc}
+ 100              	.L6:
+ 101 0026 C046     		.align	2
+ 102              	.L5:
+ 103 0028 00000000 		.word	.LC1
+ 104 002c 0C000000 		.word	.LC3
+ 105 0030 14000000 		.word	.LC5
+ 106 0034 00080050 		.word	1342179328
+ 107              		.cfi_endproc
+ 108              	.LFE312:
+ 110              		.section	.text.BOARD_Loop,"ax",%progbits
+ 111              		.align	2
+ 112              		.global	BOARD_Loop
+ 113              		.code	16
+ 114              		.thumb_func
+ 116              	BOARD_Loop:
+ 117              	.LFB313:
+  53:Core/Src/board.c **** 
+  54:Core/Src/board.c **** /******************************************************************************/
+  55:Core/Src/board.c **** /* board loop function */
+  56:Core/Src/board.c **** 
+  57:Core/Src/board.c **** void BOARD_Loop() {
+ 118              		.loc 1 57 0
+ 119              		.cfi_startproc
+ARM GAS  /tmp/cc9aiMuQ.s 			page 4
+
+
+ 120              		@ args = 0, pretend = 0, frame = 0
+ 121              		@ frame_needed = 0, uses_anonymous_args = 0
+ 122 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 123              	.LCFI2:
+ 124              		.cfi_def_cfa_offset 24
+ 125              		.cfi_offset 3, -24
+ 126              		.cfi_offset 4, -20
+ 127              		.cfi_offset 5, -16
+ 128              		.cfi_offset 6, -12
+ 129              		.cfi_offset 7, -8
+ 130              		.cfi_offset 14, -4
+  58:Core/Src/board.c **** 
+  59:Core/Src/board.c ****   int tick_loop = HAL_GetTick();
+ 131              		.loc 1 59 0
+ 132 0002 FFF7FEFF 		bl	HAL_GetTick
+ 133              	.LVL8:
+ 134 0006 0400     		movs	r4, r0
+ 135              	.LVL9:
+ 136              	.L8:
+  60:Core/Src/board.c **** 
+  61:Core/Src/board.c ****   while (1)
+  62:Core/Src/board.c ****   {
+  63:Core/Src/board.c ****     if((HAL_GetTick() - tick_loop) >= CONFIG_BOARD_LOOP_TIME_MS) {
+ 137              		.loc 1 63 0
+ 138 0008 FFF7FEFF 		bl	HAL_GetTick
+ 139              	.LVL10:
+ 140 000c 001B     		subs	r0, r0, r4
+ 141 000e 2C23     		movs	r3, #44
+ 142 0010 FF33     		adds	r3, r3, #255
+ 143 0012 9842     		cmp	r0, r3
+ 144 0014 F8D9     		bls	.L8
+  64:Core/Src/board.c ****       tick_loop = HAL_GetTick();
+ 145              		.loc 1 64 0
+ 146 0016 FFF7FEFF 		bl	HAL_GetTick
+ 147              	.LVL11:
+ 148 001a 0400     		movs	r4, r0
+ 149              	.LVL12:
+  65:Core/Src/board.c **** 
+  66:Core/Src/board.c ****       HAL_GPIO_TogglePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin);
+ 150              		.loc 1 66 0
+ 151 001c 8027     		movs	r7, #128
+ 152 001e BF01     		lsls	r7, r7, #6
+ 153 0020 0D4E     		ldr	r6, .L10
+ 154 0022 3900     		movs	r1, r7
+ 155 0024 3000     		movs	r0, r6
+ 156              	.LVL13:
+ 157 0026 FFF7FEFF 		bl	HAL_GPIO_TogglePin
+ 158              	.LVL14:
+  67:Core/Src/board.c ****       HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
+ 159              		.loc 1 67 0
+ 160 002a A025     		movs	r5, #160
+ 161 002c ED05     		lsls	r5, r5, #23
+ 162 002e 0121     		movs	r1, #1
+ 163 0030 2800     		movs	r0, r5
+ 164 0032 FFF7FEFF 		bl	HAL_GPIO_TogglePin
+ 165              	.LVL15:
+  68:Core/Src/board.c **** 
+ARM GAS  /tmp/cc9aiMuQ.s 			page 5
+
+
+  69:Core/Src/board.c ****       PRINTF("Demo LED BLUE:%d\r\n" ,HAL_GPIO_ReadPin(LED_BLUE_GPIO_Port, LED_BLUE_Pin));
+ 166              		.loc 1 69 0
+ 167 0036 3900     		movs	r1, r7
+ 168 0038 3000     		movs	r0, r6
+ 169 003a FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 170              	.LVL16:
+ 171 003e 0100     		movs	r1, r0
+ 172 0040 0648     		ldr	r0, .L10+4
+ 173 0042 FFF7FEFF 		bl	printf
+ 174              	.LVL17:
+  70:Core/Src/board.c ****       PRINTF("Demo LED RED:%d\r\n" ,HAL_GPIO_ReadPin(LED_RED_GPIO_Port, LED_RED_Pin));
+ 175              		.loc 1 70 0
+ 176 0046 0121     		movs	r1, #1
+ 177 0048 2800     		movs	r0, r5
+ 178 004a FFF7FEFF 		bl	HAL_GPIO_ReadPin
+ 179              	.LVL18:
+ 180 004e 0100     		movs	r1, r0
+ 181 0050 0348     		ldr	r0, .L10+8
+ 182 0052 FFF7FEFF 		bl	printf
+ 183              	.LVL19:
+ 184 0056 D7E7     		b	.L8
+ 185              	.L11:
+ 186              		.align	2
+ 187              	.L10:
+ 188 0058 00080050 		.word	1342179328
+ 189 005c 24000000 		.word	.LC7
+ 190 0060 38000000 		.word	.LC9
+ 191              		.cfi_endproc
+ 192              	.LFE313:
+ 194              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 195              		.align	2
+ 196              	.LC1:
+ 197 0000 32303232 		.ascii	"2022.10.25\000"
+ 197      2E31302E 
+ 197      323500
+ 198 000b 00       		.space	1
+ 199              	.LC3:
+ 200 000c 56312E30 		.ascii	"V1.0\000"
+ 200      00
+ 201 0011 000000   		.space	3
+ 202              	.LC5:
+ 203 0014 5665723A 		.ascii	"Ver: %s-%s\015\012\000"
+ 203      2025732D 
+ 203      25730D0A 
+ 203      00
+ 204 0021 000000   		.space	3
+ 205              	.LC7:
+ 206 0024 44656D6F 		.ascii	"Demo LED BLUE:%d\015\012\000"
+ 206      204C4544 
+ 206      20424C55 
+ 206      453A2564 
+ 206      0D0A00
+ 207 0037 00       		.space	1
+ 208              	.LC9:
+ 209 0038 44656D6F 		.ascii	"Demo LED RED:%d\015\012\000"
+ 209      204C4544 
+ 209      20524544 
+ARM GAS  /tmp/cc9aiMuQ.s 			page 6
+
+
+ 209      3A25640D 
+ 209      0A00
+ 210              		.text
+ 211              	.Letext0:
+ 212              		.file 2 "/home/yuan/gcc-arm-none-eabi-5_4-2016q3/arm-none-eabi/include/machine/_default_types.h"
+ 213              		.file 3 "/home/yuan/gcc-arm-none-eabi-5_4-2016q3/arm-none-eabi/include/sys/_stdint.h"
+ 214              		.file 4 "Drivers/CMSIS/Device/ST/STM32G0xx/Include/stm32g070xx.h"
+ 215              		.file 5 "Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_def.h"
+ 216              		.file 6 "Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_gpio.h"
+ 217              		.file 7 "Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_dma.h"
+ 218              		.file 8 "Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_uart.h"
+ 219              		.file 9 "Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_ll_dma.h"
+ 220              		.file 10 "Drivers/CMSIS/Include/cmsis_gcc.h"
+ 221              		.file 11 "/home/yuan/gcc-arm-none-eabi-5_4-2016q3/arm-none-eabi/include/stdio.h"
+ 222              		.file 12 "Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal.h"
+ARM GAS  /tmp/cc9aiMuQ.s 			page 7
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 board.c
+     /tmp/cc9aiMuQ.s:20     .text._write:00000000 $t
+     /tmp/cc9aiMuQ.s:25     .text._write:00000000 _write
+     /tmp/cc9aiMuQ.s:56     .text._write:00000014 $d
+     /tmp/cc9aiMuQ.s:61     .text.BOARD_Init:00000000 $t
+     /tmp/cc9aiMuQ.s:66     .text.BOARD_Init:00000000 BOARD_Init
+     /tmp/cc9aiMuQ.s:103    .text.BOARD_Init:00000028 $d
+     /tmp/cc9aiMuQ.s:111    .text.BOARD_Loop:00000000 $t
+     /tmp/cc9aiMuQ.s:116    .text.BOARD_Loop:00000000 BOARD_Loop
+     /tmp/cc9aiMuQ.s:188    .text.BOARD_Loop:00000058 $d
+     /tmp/cc9aiMuQ.s:195    .rodata.str1.4:00000000 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+HAL_UART_Transmit
+huart1
+printf
+HAL_GPIO_WritePin
+HAL_GetTick
+HAL_GPIO_TogglePin
+HAL_GPIO_ReadPin

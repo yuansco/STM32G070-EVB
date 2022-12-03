@@ -1,0 +1,13 @@
+Output: NC Drill Files
+Type  : NC Drill
+From  : Project [STM32G070CBT6_EVB.PrjPcb]
+   Generated File[PCB3-RoundHoles.TXT]
+   Generated File[PCB3-SlotHoles.TXT]
+   Generated File[PCB3.LDP]
+   Generated File[PCB3.DRR]
+
+
+Files Generated   : 4
+Documents Printed : 0
+
+Finished Output Generation At ¤U¤È 07:44:05 On 2022/12/3
