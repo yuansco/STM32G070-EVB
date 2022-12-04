@@ -4,7 +4,7 @@
 
 ## Overview
 
-The STM32G070-EVB board features an ARM Cortex-M0+ based STM32G070CBT6 MCU with a integrated USB to UART serial console. Here are some highlights of the STM32G070-EVB board:
+The STM32G070-EVB board features an ARM Cortex-M0+ based STM32G070CBT6 MCU with an integrated USB to UART serial console. Here are some highlights of the STM32G070-EVB board:
 
  * ARM Cortex-M0+ processor at 64 MHz
  
@@ -32,9 +32,9 @@ The STM32G070-EVB board features an ARM Cortex-M0+ based STM32G070CBT6 MCU with 
 
 You can copy Demo/zephyr/stm32g070_evb directory to the zephyr project's zephyr/boards/arm to support hardware config of this evaluation board.
 
-Most improtan file is `stm32g070_evb.dts` dts file, Which defines the hardware connection and components of this evaluation board.
+Most important file is `stm32g070_evb.dts` dts file, Which defines the hardware connection and components of this evaluation board.
 
-### building hello world example
+### Building hello world example
 
 ```
 BOARD=stm32g070_evb
