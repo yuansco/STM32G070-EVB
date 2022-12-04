@@ -1,0 +1,10 @@
+# STM32G070 Evaluation Board with STM32G070CBT6 MCU
+
+# SPDX-License-Identifier: Apache-2.0
+
+if BOARD_STM32G070_EVB
+
+config BOARD
+	default "stm32g070_evb"
+
+endif # BOARD_STM32G070_EVB

@@ -1,0 +1,22 @@
+identifier: stm32g070_evb
+name: STM32G070 Evaluation Board
+type: mcu
+arch: arm
+toolchain:
+  - zephyr
+  - gnuarmemb
+  - xtools
+ram: 36
+flash: 128
+supported:
+  - uart
+  - gpio
+  - i2c
+  - spi
+  - counter
+  - watchdog
+  - pwm
+  - adc
+  - dma
+  - lptim
+  - nvs

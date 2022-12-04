@@ -28,3 +28,20 @@ The STM32G070-EVB board features an ARM Cortex-M0+ based STM32G070CBT6 MCU with 
  
  * Reset button
 
+## Zephyr OS support
+
+You can copy Demo/zephyr/stm32g070_evb directory to the zephyr project's zephyr/boards/arm to support hardware config of this evaluation board.
+
+Most improtan file is `stm32g070_evb.dts` dts file, Which defines the hardware connection and components of this evaluation board.
+
+### building hello world example
+
+```
+BOARD=stm32g070_evb
+west build -p always -b $BOARD samples/hello_world
+```
+<img src="https://github.com/yuansco/STM32G070-EVB/blob/main/Image/image2.PNG" style="width:550px;"/>
+
+
+
+
