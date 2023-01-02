@@ -1,0 +1,6 @@
+{
+        "files.associations": {
+                "eeprom.h": "c",
+                "at24c02.h": "c"
+        }
+}
